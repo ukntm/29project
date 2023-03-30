@@ -70,13 +70,19 @@
         }
     </style>
     <script>
-        function write() {
-            let formData = new FormData();
-            formData.append("write_give", content);
+        function write()
+        let content = $('#content').val()
+        let photo = $('photo').val()
     
-            fetch("/mainpage", { method: "POST", body: formData }).then(res => res.json()).then(data => {
-            })
-        }
+        $.ajax({
+            type: 'POST',
+            url: '/voyagegram99/post',
+            data: {
+                content_give : content,
+                photo_give : photo,
+            
+            }
+        })
     </script>
 </head>
 

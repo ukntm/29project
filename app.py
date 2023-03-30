@@ -134,6 +134,18 @@ def voyagegram99_sign_in():
     # 유저가 없다면
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
+    
+#글쓰기 API
+@app.route('/voyagegram99/post', methods=['POST'])
+def voyagegram99_post():
+    content_receive = request.form['content_give']
+    photo_receive = request.form['photo_give']
+    
+    doc = {
+        'photo':photo_receive,
+        'content':content_receive
+    }
+    db.content.insert_one(doc)
 
 
 ## render_page
@@ -148,6 +160,10 @@ def move_to_login():
 @app.route('/main')
 def move_to_mainPage():
     return render_template('mainpage.html')
+
+@app.route('/post')
+def move_to_writepage():
+    return render_template('post.html')
 
 # @app.route('/html/<html_name>')
 # def html(html_name):
