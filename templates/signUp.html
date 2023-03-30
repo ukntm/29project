@@ -55,22 +55,61 @@
             background-color: rgb(76, 181, 249);
         }
     </style>
+    <script>
+        $(document).ready(function () {
+            show_order();
+        });
+
+        function show_order() {
+            $.ajax({
+                type: 'GET',
+                url: '/voyagegram99',
+                data: {},
+                success: function (response) {
+                    alert(response['msg'])
+                }
+            });
+        }
+
+        function save_sign_up_info() {
+            let user_id = $('#user_id').val()
+            let nick_name = $('#nick_name').val()
+            let name = $('#name').val()
+            let password = $('#password').val()
+
+            $.ajax({
+                type: 'POST',
+                url: '/voyagegram99',
+                data: {
+                    user_id_give : user_id,
+                    nick_name_give : nick_name,
+                    name_give : name,
+                    password_give : password
+                },
+                success: function (response) {
+                    alert(response['msg'])
+                }
+            });
+            window.location.href="/login"
+        }
+    </script>
 </head>
 <body>
 <div class="wrap">
     <div class="top">
         <div width="300px">
-            <img src="./images/logo.png" width="175" height="51">
+            <img src='./static/logo.png' width="175" height="51">
         </div>
         <hr>
         <div>
-            <p><input class="inputbox" type="text" placeholder="휴대폰 번호 또는 이메일 주소"></p>
-            <p><input class="inputbox" type="text" placeholder="성명"></p>
-            <p><input class="inputbox" type="text" placeholder="사용자 이름"></p>
-            <p><input class="inputbox" type="password" placeholder="비밀번호"></p>
-            <button class="signUp_btn">가입</button>
+            <p><input class="inputbox" id=user_id type="text" placeholder="휴대폰 번호 또는 이메일 주소"></p>
+            <p><input class="inputbox" id=nick_name type="text" placeholder="성명"></p>
+            <p><input class="inputbox" id=name type="text" placeholder="사용자 이름"></p>
+            <p><input class="inputbox" id=password type="password" placeholder="비밀번호"></p>
+            <button onclick="save_sign_up_info()" class="signUp_btn">가입</button>
         </div>
-        <p>계정이 있으신가요? <a href="login_voyage.html">로그인</a></p>
+<!--        <p>계정이 있으신가요? <a href="/html/login_voyage.html">로그인</a></p>-->
+        <p>계정이 있으신가요? <a href="/login">로그인</a></p>
     </div>
 </div>
 </body>
