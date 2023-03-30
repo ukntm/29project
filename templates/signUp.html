@@ -79,7 +79,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/voyagegram99',
+                url: '/voyagegram99/register',
                 data: {
                     user_id_give : user_id,
                     nick_name_give : nick_name,
@@ -87,10 +87,14 @@
                     password_give : password
                 },
                 success: function (response) {
-                    alert(response['msg'])
+                    if (response['result'] == 'success'){
+                        alert('회원 가입이 성공적으로 완료되었습니다!!')
+                        window.location.href="/login"
+                    } else {
+                        alert(response['msg'])
+                    }
                 }
             });
-            window.location.href="/login"
         }
     </script>
 </head>
@@ -102,10 +106,10 @@
         </div>
         <hr>
         <div>
-            <p><input class="inputbox" id=user_id type="text" placeholder="휴대폰 번호 또는 이메일 주소"></p>
+            <p><input class="inputbox" id=user_id type="text" placeholder="이메일 주소"></p>
             <p><input class="inputbox" id=nick_name type="text" placeholder="성명"></p>
             <p><input class="inputbox" id=name type="text" placeholder="사용자 이름"></p>
-            <p><input class="inputbox" id=password type="password" placeholder="비밀번호"></p>
+            <p><input class="inputbox" id=password type="password" placeholder="비밀번호 (8자리 이상 입력해주세요)"></p>
             <button onclick="save_sign_up_info()" class="signUp_btn">가입</button>
         </div>
 <!--        <p>계정이 있으신가요? <a href="/html/login_voyage.html">로그인</a></p>-->
