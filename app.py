@@ -6,6 +6,8 @@ from pymongo import MongoClient
 client = MongoClient('mongodb+srv://test:sparta@cluster0.dpjbamc.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.dbsparta
 
+SECRET_KEY = 'SECRET_VOYAGEGRAM'
+
 # JWT 패키지를 사용합니다. (설치해야할 패키지 이름: PyJWT)
 import jwt
 
@@ -103,11 +105,35 @@ def voyagegram99_sign_up():
 
     return jsonify({ 'result' : result, 'msg' : msg })
 
-# ## 로그인 작업중
-# @app.route("/voyagegram99/login", methods=["POST"])
-# def voyagegram99_sign_in():
-#     user_id_receive = request.form['user_id_give']
-#     password_receive = request.form['password_give']
+## 로그인 API
+@app.route("/voyagegram99/login", methods=["POST"])
+def voyagegram99_sign_in():
+    user_id_receive = request.form['user_id_give']
+    password_receive = request.form['password_give']
+
+    # password 암호화
+    pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
+
+    # 입력받은 ID,PW로 DB에서 유저를 확인
+    check = db.user_info.find_one({'user_id':user_id_receive, 'password': pw_hash})
+
+    # 유저가 있다면
+    if check is not None:
+        # JWT 토큰에는, payload와 시크릿키가 필요합니다.
+        # 시크릿키가 있어야 토큰을 디코딩(=풀기) 해서 payload 값을 볼 수 있습니다.
+        # 아래에선 id와 exp를 담았습니다. 즉, JWT 토큰을 풀면 유저ID 값을 알 수 있습니다.
+        # exp에는 만료시간을 넣어줍니다. 만료시간이 지나면, 시크릿키로 토큰을 풀 때 만료되었다고 에러가 납니다.
+        payload = {
+            'id' : user_id_receive,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=10)
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+        # token을 줍니다.
+        return jsonify({'result': 'success', 'token': token})
+    # 유저가 없다면
+    else:
+        return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
 
 ## render_page

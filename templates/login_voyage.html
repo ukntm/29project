@@ -56,6 +56,34 @@
 
         }
     </style>
+    <script>
+        // 로그인 버튼 기능 구현
+        function log_in() {
+            let user_id = $('#user_id').val()
+            let password = $('#password').val()
+
+            $.ajax({
+                type: 'POST',
+                url: '/voyagegram99/login',
+                data: {
+                    user_id_give : user_id,
+                    password_give : password
+                },
+                success: function (response) {
+                    if (response['result'] == 'success'){
+                        // 로그인 성공시 토큰을 쿠키에 저장하고 메인페이지로 전환
+                        // $.cookie('mytoken', response['token']);
+
+                        alert('로그인 완료!')
+                        window.location.href = '/main'
+                        // 로그인 실패시 msg 출력
+                    } else {
+                        alert(response['msg'])
+                    }
+                }
+            });
+        }
+    </script>
 </head>
 <body>
 <div class="wrap">
@@ -65,9 +93,9 @@
         </div>
         <hr>
         <div>
-            <p><input class="inputbox" type="text" placeholder="전화번호, 사용자 이름 또는 이메일"></p>
-            <p><input class="inputbox" type="password" placeholder="비밀번호"></p>
-            <button class="signin_btn">로그인</button>
+            <p><input id="user_id" class="inputbox" type="text" placeholder="전화번호, 사용자 이름 또는 이메일"></p>
+            <p><input id="password" class="inputbox" type="password" placeholder="비밀번호"></p>
+            <button ONCLICK="log_in()" class="signin_btn">로그인</button>
         </div>
 <!--        <p>계정이 없으신가요? <a href="/html/signUp.html">가입하기</a></p>-->
         <p>계정이 없으신가요? <a href="/signup">가입하기</a></p>
