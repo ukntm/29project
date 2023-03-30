@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>글 작성</title>
+    <style>
+        .form_box {
+            background-color: #ffffff;
+            margin: 15px;
+            border-radius: 4px;
+            border: 0px solid #ddd;
+            padding: 10px;
+            margin-top: 0px;
+        }
+
+        .w1 {
+            margin-top: 100px;
+            margin-left: 1px;
+        }
+
+        .i_feild {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+            margin: 10px 0;
+            font-size: 15px;
+            width: 99%;
+            height: 300px;
+            margin-top: -10px;
+        }
+
+        .file_upload {
+            border: 0px solid #ffffff;
+            border-radius: 4px;
+            background-color: #ffffff;
+            color: #516fcf;
+            font-size: 15px;
+            padding: 2px;
+            margin-left: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .file_upload:hover {
+            background-color: #516fcf;
+            color: #ffffff;
+        }
+
+        #upload {
+            display: none;
+        }
+
+        .write_button {
+            border: 0px solid #ffffff;
+            border-radius: 4px;
+            background-color: #ffffff;
+            color: #516fcf;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 5px;
+            float: right;
+            cursor: pointer;
+        }
+
+        .write_button:hover {
+            background-color: #516fcf;
+            color: #ffffff;
+        }
+    </style>
+    <script>
+        function write() {
+            let formData = new FormData();
+            formData.append("write_give", content);
+    
+            fetch("/mainpage", { method: "POST", body: formData }).then(res => res.json()).then(data => {
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <div class="form_box">
+        <form method="POST">
+        <h4 class="w1">게시물 작성</h4>
+        <div>
+                <textarea class="i_feild" placeholder="내용" name = "content"></textarea>
+        </div>
+        <div>
+            <div>
+                <label class="file_upload" for="upload"> 파일
+                </label>
+                <input type="file" id="upload" accept="image/*,.txt,.html" name="photo" />
+                <button onclick = write() class="write_button" type="submit" name= "write">글 작성</button>
+            </div>
+        </div>
+    </form>
+    </div>
+</body>
+
+</html>
